@@ -1,9 +1,11 @@
 import { useState } from "react";
 import "./styles.css";
 import "./components/taskItem";
-import Ingredient from "./components/ingredient";
-import { allRecipe, ingredients } from "./data/data";
-import RecipeItem from "./components/RecipeItem/recipeItem";
+import { allRecipe } from "./data/data";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import SelectedIngredients from "./pages/SelectIngredients";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import RecipePage from "./pages/RecipePage";
 
 let selectedIngredients = [];
 
@@ -22,7 +24,6 @@ export default function App() {
   function recipeAlgorithm() {
     let make = [];
 
-    console.log("ayy yoo you there");
     allRecipe.forEach((recipe) => {
       let score = 0;
       selectedIngredients.forEach((ingredient) => {
@@ -46,42 +47,48 @@ export default function App() {
     }
 
     if (make.length === 0) {
+      console.log('setting it that way');
       setwhatcanyoumake(["select more ingredients"]);
     }
-
 
   }
 
   return (
-    <div className="container">
-      <h1>What do you wanna make today</h1>
+    <Router>
+      <Routes>
+        <Route path="/" element={<SelectedIngredients />}></Route>
+        <Route path="/recipe" element={<RecipePage />}></Route>
+      </Routes>
+    </Router>
+    // <div className="container">
+    //   <h1>What do you wanna make today</h1>
 
-      <div style={{ display: "flex", overflow: "scroll" }}>
-        {ingredients.map((value, index) => {
-          return (
-            <Ingredient
-              key={index}
-              id={index}
-              name={value}
-              userSelected={userData}
-            />
-          );
-        })}
-      </div>
-      <div>
-        <button
-          onClick={recipeAlgorithm}
-          className="btn btn-primary my-2"
-          style={{ width: "100%" }}
-        >
-          what can i make
-        </button>
-      </div>
-      <div>
-        {whatcanyoumake.map((value, index) => {
-          return <RecipeItem key={index} name={value}>  </RecipeItem>;
-        })}
-      </div>
-    </div>
+    //   <div style={{ display: "flex", overflow: "scroll" }}>
+    //     {ingredients.map((value, index) => {
+    //       return (
+    //         <Ingredient
+    //           key={index}
+    //           id={index}
+    //           name={value}
+    //           userSelected={userData}
+    //         />
+    //       );
+    //     })}
+    //   </div>
+    //   <div>
+    //     <button
+    //       onClick={recipeAlgorithm}
+    //       className="btn btn-primary my-2"
+    //       style={{ width: "100%" }}
+    //     >
+    //       what can i make
+    //     </button>
+    //   </div>
+    //   <div>
+    //     {whatcanyoumake.map((value, index) => {
+    //       return <RecipeItem key={index} name={value}>  </RecipeItem>;
+    //     })}
+    //   </div>
+    // </div>
   );
 }
